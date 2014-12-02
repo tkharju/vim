@@ -284,16 +284,19 @@ augroup filetypedetect
   autocmd FileType mail set nospell formatoptions+=awn2b
 augroup END
 
-"taskjuggler
+" taskjuggler
 autocmd BufRead,BufNewFile *.tji,*.tjp setfiletype tjp
 
-"docs
-autocmd BufRead,BufNewFile *.rst,*.md set spell spelllang=en_us
+" docs
+autocmd BufRead,BufNewFile *.rst,*.md set spell setlocal spelllang=en_us
 
-"docker
+" salt
+autocmd BufRead,BufNewFile *.sls set nowrap spelllang=en_us
+
+" docker
 autocmd FileType dockerfile setlocal makeprg=docker\ build\ %:h
 
-"puppet
+" puppet
 if exists(":Tabularize")
   nmap <Leader>T :Tabularize /=><CR>
 endif
@@ -364,8 +367,8 @@ nmap <Leader>t :CtrlPTag<CR>
 let g:easytags_async = 1
 let g:easytags_auto_update = 0
 let g:easytags_auto_highlight = 0
-set tags=./tags;
-let g:easytags_dynamic_files = 2
+set tags=tags;
+let g:easytags_dynamic_files = 0
 
 " Ag
 nmap <Leader>a :Ag! 
@@ -405,6 +408,9 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+" toggle showing line numbers
+nmap <F12> :set invnumber<CR>
 
 " local config file for example overriding ctags path in FreeBSD
 let s:vimcustomfile = $HOME.'/.vim/local.vim'
