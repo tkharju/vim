@@ -27,6 +27,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'gmarik/Vundle.vim.git'
 Plugin 'bling/vim-airline'
 Plugin 'davidhalter/jedi-vim'
+Plugin 'ervandew/supertab'
 Plugin 'godlygeek/tabular'
 Plugin 'honza/vim-snippets'
 Plugin 'kien/ctrlp.vim'
@@ -375,6 +376,9 @@ let g:jedi#popup_on_dot = 1
 " NERDTree
 nmap <F4> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+" Supertab
+let g:SuperTabDefaultCompletionType = "context"
 
 " backups
 function! MakeDirIfNoExists(path)
