@@ -364,7 +364,7 @@ let g:easytags_async = 1
 let g:easytags_auto_update = 0
 let g:easytags_auto_highlight = 0
 set tags=./tags;
-let g:easytags_dynamic_files = 1
+let g:easytags_dynamic_files = 0
 
 " Ag
 nmap <Leader>a :Ag! 
