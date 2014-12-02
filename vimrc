@@ -253,7 +253,7 @@ let g:syntastic_echo_current_error = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_cursor_column = 1
 let g:syntastic_python_pylint_args="-d C0103,C0111,C0301,F0401,E111,W0232,R0903,C1001,E1002 --indent-string='  ' --generated-members=objects,filter,id,pk,model"
-let g:syntastic_python_flake8_args="--ignore=E111,E501"
+let g:syntastic_python_flake8_args="--ignore=E111,E501,W391"
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
@@ -340,6 +340,7 @@ highlight EOLWS ctermbg=red guibg=red
 " ultisnips
 let g:ultisnips_python_style = "sphinx"
 let g:UltiSnipsEditSplit = "vertical"
+let g:UltiSnipsSnippetsDir = "~/.vim/bundle/snippets/UltiSnips/"
 
 " ctrlp
 if executable('ag')
@@ -364,7 +365,7 @@ let g:easytags_async = 1
 let g:easytags_auto_update = 0
 let g:easytags_auto_highlight = 0
 set tags=./tags;
-let g:easytags_dynamic_files = 0
+let g:easytags_dynamic_files = 2
 
 " Ag
 nmap <Leader>a :Ag! 
