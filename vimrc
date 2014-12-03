@@ -224,7 +224,10 @@ augroup filetypedetect
 augroup END
 
 " docs
-autocmd BufRead,BufNewFile *.rst,*.md set spell setlocal spelllang=en_us
+augroup docs
+  autocmd BufRead,BufNewFile *.rst,*.md setlocal spell
+  autocmd BufRead,BufNewFile *.rst,*.md setlocal spelllang=en_us
+augroup END
 
 " salt
 autocmd BufRead,BufNewFile *.sls set nowrap spelllang=en_us
