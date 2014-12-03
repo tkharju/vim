@@ -42,6 +42,7 @@ Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'puppetlabs/puppet-syntax-vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'rodjek/vim-puppet'
+Plugin 'markcornick/vim-vagrant'
 "Plugin 'Rykka/clickable.vim'  See: https://github.com/Rykka/clickable.vim/issues/4
 "Plugin 'Rykka/riv.vim'        See: https://github.com/Rykka/riv.vim/issues/86
 Plugin 'saltstack/salt-vim'
@@ -412,6 +413,9 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+" fix spelling with first suggestion
+nmap <Leader>s 1z=<CR>
 
 " toggle showing line numbers
 nmap <F12> :set invnumber<CR>
