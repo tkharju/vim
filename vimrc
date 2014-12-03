@@ -33,6 +33,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'kien/ctrlp.vim'
 Plugin 'rking/ag.vim'
 "Plugin 'klen/python-mode.git' // conflicts with jedi-vim
+Plugin 'lepture/vim-jinja'
 Plugin 'ludovicchabant/vim-lawrencium'
 Plugin 'majutsushi/tagbar'
 Plugin 'maxmeyer/vim-taskjuggler'
