@@ -239,7 +239,7 @@ autocmd BufNewFile,BufRead *.pp set ft=puppet
 
 " python
 augroup python
-  autocmd BufRead *.py set foldmethod=indent foldnestmax=2
+  autocmd BufRead *.py set foldmethod=indent foldnestmax=2 tabstop=2 expandtab shiftwidth=2 softtabstop=2
 augroup END
 
 " help
