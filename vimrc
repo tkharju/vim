@@ -40,7 +40,6 @@ Plugin 'tkharju/snippets'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
 Plugin 'vimez/vim-tmux'
-Plugin 'scrooloose/nerdtree'
 Plugin 'Yggdroot/indentLine'
 call vundle#end()
 
@@ -298,10 +297,6 @@ nmap <Leader>t :CtrlPTag<CR>
 
 " jedi-vim
 let g:jedi#popup_on_dot = 1
-
-" NERDTree
-nmap <F4> :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "context"
