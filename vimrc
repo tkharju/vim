@@ -23,36 +23,23 @@ endif
 " Vundle + Plugins
 call vundle#begin()
 " List plugins here
-Plugin 'airblade/vim-gitgutter'
 Plugin 'gmarik/Vundle.vim.git'
 Plugin 'bling/vim-airline'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'ervandew/supertab'
 Plugin 'godlygeek/tabular'
-Plugin 'honza/vim-snippets'
 Plugin 'kien/ctrlp.vim'
-Plugin 'rking/ag.vim'
-"Plugin 'klen/python-mode.git' // conflicts with jedi-vim
-Plugin 'ludovicchabant/vim-lawrencium'
 Plugin 'majutsushi/tagbar'
-Plugin 'maxmeyer/vim-taskjuggler'
 Plugin 'nanotech/jellybeans.vim'
-Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'puppetlabs/puppet-syntax-vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'rodjek/vim-puppet'
-"Plugin 'Rykka/clickable.vim'  See: https://github.com/Rykka/clickable.vim/issues/4
-"Plugin 'Rykka/riv.vim'        See: https://github.com/Rykka/riv.vim/issues/86
 Plugin 'saltstack/salt-vim'
-Plugin 'scrooloose/syntastic'
 Plugin 'SirVer/ultisnips'
 Plugin 'tkharju/snippets'
 Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'vimez/vim-tmux'
-Plugin 'xolox/vim-easytags'
-Plugin 'xolox/vim-misc'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Yggdroot/indentLine'
 call vundle#end()
@@ -163,13 +150,6 @@ if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
   runtime! macros/matchit.vim
 endif
 
-" fix typos
-iabbrev teh the
-iabbrev TK Tino Kiviharju
-iabbrev tinohaltu Tino Kiviharju <tino.kiviharju@haltu.fi>
-iabbrev tinogmail Tino Kiviharju <tino.kiviharju@gmail.com>
-iabbrev @@ tino.kiviharju@gmail.com
-
 " Autocomplete %% to folder of current file
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
@@ -198,29 +178,8 @@ cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
 " auto reload changes to this file
 autocmd! BufWritePost vimrc source %
 
-" Use ranger as file browser
-fun! RangerChooser()
-    exec "silent !ranger --choosefile=/tmp/chosenfile " . expand("%:p:h")
-    if filereadable('/tmp/chosenfile')
-        exec 'edit ' . system('cat /tmp/chosenfile')
-        call system('rm /tmp/chosenfile')
-    endif
-    redraw!
-endfun
-map <Leader>x :call RangerChooser()<CR>
-
-" plugin settings
-
 " tagbar
 nmap <F8> :TagbarToggle<CR>
-
-" airline
-set noshowmode
-let g:airline_enable_branch=1
-let g:airline_powerline_fonts=1
-let g:airline_detect_whitespace = 1
-let g:airline#extensions#hunks#non_zero_only = 1
-set laststatus=2
 
 " commentary
 nmap <Leader>c <Plug>CommentaryLine
@@ -246,20 +205,6 @@ let g:indentLine_color_term = 239
 let g:indentLine_fileType = ['python', 'puppet', 'sls', 'html', 'js']
 nmap <F6> :IndentLinesToggle<CR>
 
-" syntastic
-let g:syntastic_python_checkers = ['pylint', 'flake8', 'pyflakes']
-let g:syntastic_check_on_open = 1
-let g:syntastic_echo_current_error = 1
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_cursor_column = 1
-let g:syntastic_python_pylint_args="-d C0103,C0111,C0301,F0401,E111,W0232,R0903,C1001,E1002 --indent-string='  ' --generated-members=objects,filter,id,pk,model"
-let g:syntastic_python_flake8_args="--ignore=E111,E501,W391"
-let g:syntastic_enable_highlighting = 1
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol  = '⚡'
-let g:syntastic_style_warning_symbol  = '⚡'
-
 " filetypes
 " django/html
 au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
@@ -284,9 +229,6 @@ augroup filetypedetect
   autocmd FileType mail set nospell formatoptions+=awn2b
 augroup END
 
-" taskjuggler
-autocmd BufRead,BufNewFile *.tji,*.tjp setfiletype tjp
-
 " docs
 autocmd BufRead,BufNewFile *.rst,*.md set spell setlocal spelllang=en_us
 
@@ -301,14 +243,6 @@ if exists(":Tabularize")
   nmap <Leader>T :Tabularize /=><CR>
 endif
 autocmd BufNewFile,BufRead *.pp set ft=puppet
-
-" i3 config
-autocmd BufEnter *i3/config setlocal filetype=i3
-
-" templates
-augroup templates
-  autocmd BufNewFile *.py 0r ~/.vim/templates/template.py
-augroup END
 
 " python
 augroup python
@@ -343,7 +277,6 @@ highlight EOLWS ctermbg=red guibg=red
 " ultisnips
 let g:ultisnips_python_style = "sphinx"
 let g:UltiSnipsEditSplit = "vertical"
-let g:UltiSnipsSnippetsDir = "~/.vim/bundle/snippets/UltiSnips/"
 
 " ctrlp
 if executable('ag')
@@ -362,17 +295,6 @@ if executable('ag')
 endif
 nmap <Leader>f :CtrlPBufTag<CR>
 nmap <Leader>t :CtrlPTag<CR>
-
-" easytags
-let g:easytags_async = 1
-let g:easytags_auto_update = 0
-let g:easytags_auto_highlight = 0
-set tags=tags;
-let g:easytags_dynamic_files = 0
-
-" Ag
-nmap <Leader>a :Ag! 
-let g:agprg="ag --column --ignore=tags"
 
 " jedi-vim
 let g:jedi#popup_on_dot = 1
