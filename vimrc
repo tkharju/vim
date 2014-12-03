@@ -24,12 +24,10 @@ endif
 call vundle#begin()
 " List plugins here
 Plugin 'gmarik/Vundle.vim.git'
-Plugin 'bling/vim-airline'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'ervandew/supertab'
 Plugin 'godlygeek/tabular'
 Plugin 'kien/ctrlp.vim'
-Plugin 'majutsushi/tagbar'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'puppetlabs/puppet-syntax-vim'
 Plugin 'Raimondi/delimitMate'
@@ -44,7 +42,6 @@ Plugin 'Yggdroot/indentLine'
 call vundle#end()
 
 filetype plugin indent on
-
 
 if VundleExists == 1
     echo "Installing Plugins"
@@ -177,9 +174,6 @@ cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
 " auto reload changes to this file
 autocmd! BufWritePost vimrc source %
 
-" tagbar
-nmap <F8> :TagbarToggle<CR>
-
 " commentary
 nmap <Leader>c <Plug>CommentaryLine
 xmap <Leader>c <Plug>Commentary
@@ -296,7 +290,7 @@ nmap <Leader>f :CtrlPBufTag<CR>
 nmap <Leader>t :CtrlPTag<CR>
 
 " jedi-vim
-let g:jedi#popup_on_dot = 1
+let g:jedi#popup_on_dot = 0
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "context"
