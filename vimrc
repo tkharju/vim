@@ -57,6 +57,7 @@ Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Yggdroot/indentLine'
+Plugin 'edkolev/tmuxline.vim'
 call vundle#end()
 
 filetype plugin indent on
@@ -372,8 +373,8 @@ nmap <Leader>t :CtrlPTag<CR>
 let g:easytags_async = 1
 let g:easytags_auto_update = 0
 let g:easytags_auto_highlight = 0
-set tags=tags;
-let g:easytags_dynamic_files = 0
+set tags=./tags;,~/.tags/python
+let g:easytags_dynamic_files = 1
 
 " Ag
 nmap <Leader>a :Ag! 
