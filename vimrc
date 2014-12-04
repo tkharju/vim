@@ -390,6 +390,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " Supertab
 let g:SuperTabDefaultCompletionType = "context"
 
+" tmuxline
+"let g:airline#extensions#tmuxline#enabled = 0
+"let g:tmuxline_theme = 'jellybeans'
+let g:tmuxline_preset = 'powerline'
+
 " backups
 function! MakeDirIfNoExists(path)
     if !isdirectory(expand(a:path))
