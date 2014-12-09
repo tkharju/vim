@@ -284,6 +284,7 @@ augroup END
 au BufRead /tmp/mutt-* set tw=72
 augroup filetypedetect
   autocmd BufRead,BufNewFile *mutt-* setfiletype mail
+  autocmd BufRead,BufNewFile *mutt-* set tw=72
   autocmd FileType mail set nospell formatoptions+=awn2b
 augroup END
 
