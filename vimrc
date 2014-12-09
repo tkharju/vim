@@ -58,6 +58,7 @@ Plugin 'xolox/vim-misc'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Yggdroot/indentLine'
 Plugin 'edkolev/tmuxline.vim'
+Plugin 'voikko/corevoikko', {'rtp': 'tools/vim'}
 call vundle#end()
 
 filetype plugin indent on
@@ -286,6 +287,8 @@ augroup filetypedetect
   autocmd BufRead,BufNewFile *mutt-* setfiletype mail
   autocmd BufRead,BufNewFile *mutt-* set tw=72
   autocmd FileType mail set nospell formatoptions+=awn2b
+  autocmd FileType mail let b:vimchant_spellcheck_lang = 'fi'
+  autocmd FileType :VimchantSpellCheckOn
 augroup END
 
 " taskjuggler
