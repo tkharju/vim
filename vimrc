@@ -39,6 +39,7 @@ Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
 Plugin 'vimez/vim-tmux'
 Plugin 'Yggdroot/indentLine'
+Plugin 'edkolev/tmuxline.vim'
 call vundle#end()
 
 filetype plugin indent on
@@ -122,7 +123,7 @@ nnoremap <silent> - :exe "vertical resize -5"<CR>
 map <leader>ew :e %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
-map <leader>et :tabe 
+map <leader>et :tabe
 
 " open split
 nnoremap <Leader>v <C-w>v
@@ -219,11 +220,15 @@ augroup END
 au BufRead /tmp/mutt-* set tw=72
 augroup filetypedetect
   autocmd BufRead,BufNewFile *mutt-* setfiletype mail
+  autocmd BufRead,BufNewFile *mutt-* set tw=72
   autocmd FileType mail set nospell formatoptions+=awn2b
 augroup END
 
 " docs
-autocmd BufRead,BufNewFile *.rst,*.md set spell setlocal spelllang=en_us
+augroup docs
+  autocmd BufRead,BufNewFile *.rst,*.md setlocal spell
+  autocmd BufRead,BufNewFile *.rst,*.md setlocal spelllang=en_us
+augroup END
 
 " salt
 autocmd BufRead,BufNewFile *.sls set nowrap spelllang=en_us
@@ -249,6 +254,8 @@ autocmd FileType help wincmd L
 if has("autocmd")
   autocmd BufWritePre *.py,*.js,*.html,*.pp,*.sls :call <SID>StripTrailingWhitespaces()
 endif
+
+nnoremap <leader>e :call <SID>StripTrailingWhitespaces()<CR>
 
 " Strip trailing whitespaces function
 function! <SID>StripTrailingWhitespaces()
@@ -295,6 +302,11 @@ let g:jedi#popup_on_dot = 0
 " Supertab
 let g:SuperTabDefaultCompletionType = "context"
 
+" tmuxline
+"let g:airline#extensions#tmuxline#enabled = 0
+"let g:tmuxline_theme = 'jellybeans'
+let g:tmuxline_preset = 'powerline'
+
 " backups
 function! MakeDirIfNoExists(path)
     if !isdirectory(expand(a:path))
@@ -319,6 +331,9 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+" fix spelling with first suggestion
+nmap <Leader>s 1z=<CR>
 
 " toggle showing line numbers
 nmap <F12> :set invnumber<CR>
