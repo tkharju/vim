@@ -143,7 +143,7 @@ nnoremap <silent> - :exe "vertical resize -5"<CR>
 map <leader>ew :e %%
 map <leader>es :sp %%
 map <leader>ev :vsp %%
-map <leader>et :tabe 
+map <leader>et :tabe
 
 " open split
 nnoremap <Leader>v <C-w>v
@@ -333,6 +333,8 @@ if has("autocmd")
   autocmd BufWritePre *.py,*.js,*.html,*.pp,*.sls :call <SID>StripTrailingWhitespaces()
 endif
 
+nnoremap <leader>e :call <SID>StripTrailingWhitespaces()<CR>
+
 " Strip trailing whitespaces function
 function! <SID>StripTrailingWhitespaces()
   " Preparation: save last search, and cursor position.
@@ -381,7 +383,7 @@ set tags=./tags;,~/.tags/python
 let g:easytags_dynamic_files = 1
 
 " Ag
-nmap <Leader>a :Ag! 
+nmap <Leader>a :Ag!
 let g:agprg="ag --column --ignore=tags"
 
 " jedi-vim
