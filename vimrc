@@ -256,7 +256,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_echo_current_error = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_cursor_column = 1
-let g:syntastic_python_pylint_args="-d C0103,C0111,C0301,F0401,E111,W0232,R0903,C1001,E1002,W0311 --indent-string='  ' --generated-members=objects,filter,id,pk,model,kwargs"
+let g:syntastic_python_pylint_args="-d C0103,C0111,C0301,F0401,E111,W0232,R0903,C1001,E1002,W0311 --indent-string='  ' --generated-members=objects,filter,id,pk,model,kwargs,request"
 let g:syntastic_python_flake8_args="--ignore=E111,E501,W391"
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_error_symbol='✗'
@@ -286,6 +286,7 @@ au BufRead /tmp/mutt-* set tw=72
 augroup filetypedetect
   autocmd BufRead,BufNewFile *mutt-* setfiletype mail
   autocmd BufRead,BufNewFile *mutt-* set tw=72
+  autocmd BufRead,BufNewFile *mutt-* set nohlsearch
   autocmd FileType mail set nospell formatoptions+=awn2b
   autocmd FileType mail let b:vimchant_spellcheck_lang = 'fi'
   autocmd FileType :VimchantSpellCheckOn
@@ -314,6 +315,9 @@ autocmd BufNewFile,BufRead *.pp set ft=puppet
 
 " i3 config
 autocmd BufEnter *i3/config setlocal filetype=i3
+
+" xml lint
+autocmd FileType xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
 
 " templates
 augroup templates
@@ -383,7 +387,7 @@ set tags=./tags;,~/.tags/python
 let g:easytags_dynamic_files = 1
 
 " Ag
-nmap <Leader>a :Ag!
+nmap <Leader>a :Ag! 
 let g:agprg="ag --column --ignore=tags"
 
 " jedi-vim
