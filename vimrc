@@ -191,7 +191,7 @@ map gf :e <cfile><CR>
 
 " search
 set path+=**
-set suffixesadd=.py,.txt,.rst,.sls,.pp,.html,.png,.jpg,.jpeg,.gif
+set suffixesadd=.py,.txt,.rst,.sls,.pp,.html,.png,.jpg,.jpeg,.gif,.erb
 
 " hide highlighted search results with F3
 nnoremap <F3> :set hlsearch!<CR>
@@ -289,7 +289,7 @@ augroup filetypedetect
   autocmd BufRead,BufNewFile *mutt-* set nohlsearch
   autocmd FileType mail set nospell formatoptions+=awn2b
   autocmd FileType mail let b:vimchant_spellcheck_lang = 'fi'
-  autocmd FileType :VimchantSpellCheckOn
+  "autocmd FileType mail :VimchantSpellCheckOn
 augroup END
 
 " taskjuggler
@@ -383,7 +383,8 @@ nmap <Leader>t :CtrlPTag<CR>
 let g:easytags_async = 1
 let g:easytags_auto_update = 0
 let g:easytags_auto_highlight = 0
-set tags=./tags;,~/.tags/python
+"set tags=./tags;,~/.tags/python
+set tags=./tags;
 let g:easytags_dynamic_files = 1
 
 " Ag
