@@ -299,6 +299,7 @@ autocmd BufRead,BufNewFile *.tji,*.tjp setfiletype tjp
 augroup docs
   autocmd BufRead,BufNewFile *.rst,*.md setlocal spell
   autocmd BufRead,BufNewFile *.rst,*.md setlocal spelllang=en_us
+  autocmd BufRead,BufNewFile *.rst set fo=want
 augroup END
 
 " salt
