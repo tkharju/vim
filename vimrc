@@ -58,6 +58,7 @@ Plugin 'xolox/vim-misc'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Yggdroot/indentLine'
 Plugin 'edkolev/tmuxline.vim'
+Plugin 'evanmiller/nginx-vim-syntax'
 Plugin 'voikko/corevoikko', {'rtp': 'tools/vim'}
 call vundle#end()
 
@@ -94,6 +95,8 @@ set splitright                  " open splits on the right side
 set splitbelow                   " open vertical splits below
 set mouse=a                     " support mouse
 set complete-=i
+set cmdheight=3
+set shortmess+=T
 
 " search
 set incsearch                   " incremental searching
@@ -186,6 +189,8 @@ nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
 " double quote word
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
+" To switch "foo" to 'foo' do cs"'
+
 " create new file if does not exist
 map gf :e <cfile><CR>
 
@@ -220,9 +225,9 @@ nmap <F8> :TagbarToggle<CR>
 
 " airline
 set noshowmode
-let g:airline_enable_branch=1
+let g:airline#extensions#branch#enabled = 1
 let g:airline_powerline_fonts=1
-let g:airline_detect_whitespace = 1
+let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#hunks#non_zero_only = 1
 set laststatus=2
 
@@ -367,15 +372,15 @@ if executable('ag')
   " Use Ag over Grep
   set grepprg=ag\ --nogroup\ --nocolor
 
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  "let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-  let g:ctrlp_user_command = {
-    \ 'types': {
-      \ 1: ['.git', 'cd %s && git ls-files'],
-      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-      \ },
-    \ 'fallback': 'ag %s -l --nocolor --hidden -g ""'
-    \ }
+"  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+"  "let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+"  let g:ctrlp_user_command = {
+"    \ 'types': {
+"      \ 1: ['.git', 'cd %s && git ls-files'],
+"      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+"      \ },
+"    \ 'fallback': 'ag %s -l --nocolor --hidden -g ""'
+"    \ }
 endif
 nmap <Leader>f :CtrlPBufTag<CR>
 nmap <Leader>t :CtrlPTag<CR>
@@ -437,6 +442,11 @@ nmap <Leader>s 1z=<CR>
 
 " toggle showing line numbers
 nmap <F12> :set invnumber<CR>
+
+" netrw
+let g:netrw_silent = 0
+let g:netrw_use_errorwindow = 0
+let g:netrw_rsync_cmd = "rsync -avz --progress -h"
 
 " local config file for example overriding ctags path in FreeBSD
 let s:vimcustomfile = $HOME.'/.vim/local.vim'
