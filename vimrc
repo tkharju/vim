@@ -60,6 +60,9 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'evanmiller/nginx-vim-syntax'
 Plugin 'voikko/corevoikko', {'rtp': 'tools/vim'}
+Plugin 'othree/html5.vim'
+Plugin 'mattn/emmet-vim'
+Plugin 'gregsexton/MatchTag'
 call vundle#end()
 
 filetype plugin indent on
@@ -256,12 +259,13 @@ let g:indentLine_fileType = ['python', 'puppet', 'sls', 'html', 'js']
 nmap <F6> :IndentLinesToggle<CR>
 
 " syntastic
-let g:syntastic_python_checkers = ['pylint', 'flake8', 'pyflakes']
+let g:syntastic_python_checkers = ['prospector', 'flake8', 'pyflakes']
+"let g:syntastic_python_checkers = ['pylint', 'flake8', 'pyflakes']
 let g:syntastic_check_on_open = 1
 let g:syntastic_echo_current_error = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_cursor_column = 1
-let g:syntastic_python_pylint_args="-d C0103,C0111,C0301,F0401,E111,W0232,R0903,C1001,E1002,W0311 --indent-string='  ' --generated-members=objects,filter,id,pk,model,kwargs,request"
+let g:syntastic_python_pylint_args="--load-plugins pylint_django -d C0103,C0111,C0301,F0401,E111,W0232,R0903,C1001,E1002,W0311,W0312 --indent-string='  ' --generated-members=objects,filter,id,pk,model,kwargs,request,as_view"
 let g:syntastic_python_flake8_args="--ignore=E111,E501,W391"
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_error_symbol='✗'
@@ -271,10 +275,19 @@ let g:syntastic_style_warning_symbol  = '⚡'
 
 " filetypes
 " django/html
-au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
+augroup django_html_autocmd
+  au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
+  au BufRead,BufNewFile */templates/*.html setlocal tw=0
+augroup END
 
 " json
 autocmd BufNewFile,BufRead *.json set ft=json
+
+"html
+augroup html_autocmd
+  autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType html set set tw=0
+augroup END
 
 augroup json_autocmd
   autocmd!
@@ -328,11 +341,16 @@ autocmd FileType xml exe ":silent %!xmllint --format --recover - 2>/dev/null"
 " templates
 augroup templates
   autocmd BufNewFile *.py 0r ~/.vim/templates/template.py
+  autocmd BufNewFile *.html 0r ~/.vim/templates/template.html
 augroup END
 
 " python
 augroup python
-  autocmd BufRead *.py set foldmethod=indent foldnestmax=2
+  "autocmd BufRead *.py set foldmethod=indent foldnestmax=2
+  autocmd BufRead *.py set foldmethod=manual foldnestmax=2
+  if executable('autopep8')
+    autocmd FileType python setlocal equalprg=autopep8\ --indent-size\ 2\ /dev/stdin
+  endif
 augroup END
 
 " help
@@ -361,6 +379,9 @@ endfunction
 autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
 autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
 highlight EOLWS ctermbg=red guibg=red
+
+" tidy html
+nnoremap <leader>X :!tidy -q -i --show-errors 0<CR>
 
 " ultisnips
 let g:ultisnips_python_style = "sphinx"
@@ -391,14 +412,17 @@ let g:easytags_auto_update = 0
 let g:easytags_auto_highlight = 0
 "set tags=./tags;,~/.tags/python
 set tags=./tags;
-let g:easytags_dynamic_files = 1
+let g:easytags_dynamic_files = 2
 
 " Ag
 nmap <Leader>a :Ag! 
 let g:agprg="ag --column --ignore=tags"
 
 " jedi-vim
-let g:jedi#popup_on_dot = 1
+let g:jedi#popup_on_dot = 0
+let g:jedi#show_call_signatures = 2
+"let g:jedi#use_tabs_not_buffers = 0
+let g:jedi#use_splits_not_buffers = 'right'
 
 " NERDTree
 nmap <F4> :NERDTreeToggle<CR>
