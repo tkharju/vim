@@ -57,12 +57,13 @@ Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Yggdroot/indentLine'
-Plugin 'edkolev/tmuxline.vim'
+"Plugin 'edkolev/tmuxline.vim'
 Plugin 'evanmiller/nginx-vim-syntax'
 Plugin 'voikko/corevoikko', {'rtp': 'tools/vim'}
 Plugin 'othree/html5.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'gregsexton/MatchTag'
+Plugin 'editorconfig/editorconfig-vim'
 call vundle#end()
 
 filetype plugin indent on
@@ -175,6 +176,9 @@ endif
 
 " fix typos
 iabbrev teh the
+iabbrev upcloud UpCloud
+iabbrev Upcloud UpCloud
+"iabbrev postgresql PostgreSQL
 iabbrev TK Tino Kiviharju
 iabbrev tinohaltu Tino Kiviharju <tino.kiviharju@haltu.fi>
 iabbrev tinogmail Tino Kiviharju <tino.kiviharju@gmail.com>
@@ -434,7 +438,9 @@ let g:SuperTabDefaultCompletionType = "context"
 " tmuxline
 "let g:airline#extensions#tmuxline#enabled = 0
 "let g:tmuxline_theme = 'jellybeans'
-let g:tmuxline_preset = 'powerline'
+
+" this one
+"let g:tmuxline_preset = 'powerline'
 
 " backups
 function! MakeDirIfNoExists(path)
