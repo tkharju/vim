@@ -67,6 +67,7 @@ Plugin 'gregsexton/MatchTag'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'fatih/vim-go'
 Plugin 'Shougo/neocomplete.vim'
+Plugin 'garyburd/go-explorer'
 
 call vundle#end()
 
