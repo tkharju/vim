@@ -66,6 +66,8 @@ Plugin 'mattn/emmet-vim'
 Plugin 'gregsexton/MatchTag'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'fatih/vim-go'
+Plugin 'Shougo/neocomplete.vim'
+
 call vundle#end()
 
 filetype plugin indent on
