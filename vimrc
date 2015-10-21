@@ -52,8 +52,9 @@ Plugin 'tkharju/snippets'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-dispatch'
 Plugin 'vimez/vim-tmux'
-Plugin 'xolox/vim-easytags'
+"Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Yggdroot/indentLine'
@@ -64,6 +65,7 @@ Plugin 'othree/html5.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'gregsexton/MatchTag'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'fatih/vim-go'
 call vundle#end()
 
 filetype plugin indent on
@@ -101,6 +103,7 @@ set mouse=a                     " support mouse
 set complete-=i
 set cmdheight=3
 set shortmess+=T
+set foldmethod=manual
 
 " search
 set incsearch                   " incremental searching
@@ -157,8 +160,11 @@ nnoremap <Leader>v <C-w>v
 nnoremap <Leader>h <C-w>s
 
 " system clipboard
-map <Leader>y "*y
+set clipboard+=unnamedplus
+map <Leader>y "+y
+"map <Leader>y "*y
 map <Leader>p "+p
+"map <Leader>p "*p
 
 " toggle paste mode
 map <Leader>P :set invpaste<CR>
@@ -378,6 +384,7 @@ function! <SID>StripTrailingWhitespaces()
   "Clean up: restore previous search history, and cursor position
   let @/=_s
   call cursor(l, c)
+  :retab
 endfunction
 
 autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
@@ -411,16 +418,19 @@ nmap <Leader>f :CtrlPBufTag<CR>
 nmap <Leader>t :CtrlPTag<CR>
 
 " easytags
-let g:easytags_async = 1
-let g:easytags_auto_update = 0
-let g:easytags_auto_highlight = 0
-"set tags=./tags;,~/.tags/python
-set tags=./tags;
-let g:easytags_dynamic_files = 2
+"let g:easytags_async = 1
+"let g:easytags_auto_update = 0
+"let g:easytags_auto_highlight = 0
+""set tags=./tags;,~/.tags/python
+"let g:easytags_dynamic_files = 2
+
+set tags=./tags,tags
+"autocmd BufWritePost * call system("ctags -R")
+nnoremap <F2> :!ctags -R<CR>
 
 " Ag
 nmap <Leader>a :Ag! 
-let g:agprg="ag --column --ignore=tags"
+let g:ag_prg="ag --column --ignore=tags"
 
 " jedi-vim
 let g:jedi#popup_on_dot = 0
@@ -441,6 +451,9 @@ let g:SuperTabDefaultCompletionType = "context"
 
 " this one
 "let g:tmuxline_preset = 'powerline'
+
+" Run Make with F5
+nmap <F5> :Make<CR>
 
 " backups
 function! MakeDirIfNoExists(path)
