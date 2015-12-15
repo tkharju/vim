@@ -138,6 +138,8 @@ set softtabstop=2              " a soft-tab of four spaces
 set autoindent                 " set on the auto-indent
 
 " text width
+set nowrap
+set formatoptions-=t
 set textwidth=80
 set colorcolumn=81
 
@@ -272,7 +274,8 @@ let g:indentLine_fileType = ['python', 'puppet', 'sls', 'html', 'js']
 nmap <F6> :IndentLinesToggle<CR>
 
 " syntastic
-let g:syntastic_python_checkers = ['prospector', 'flake8', 'pyflakes']
+let g:syntastic_python_checkers = ['flake8', 'pyflakes']
+"let g:syntastic_python_checkers = ['prospector', 'flake8', 'pyflakes']
 "let g:syntastic_python_checkers = ['pylint', 'flake8', 'pyflakes']
 let g:syntastic_check_on_open = 1
 let g:syntastic_echo_current_error = 1
