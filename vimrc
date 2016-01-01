@@ -75,6 +75,9 @@ set splitright                  " open splits on the right side
 set splitbelow                   " open vertical splits below
 set mouse=a                     " support mouse
 set complete-=i
+set cmdheight=3
+set shortmess+=T
+set foldmethod=manual
 
 " search
 set incsearch                   " incremental searching
@@ -106,6 +109,8 @@ set softtabstop=2              " a soft-tab of four spaces
 set autoindent                 " set on the auto-indent
 
 " text width
+set nowrap
+set formatoptions-=t
 set textwidth=80
 set colorcolumn=81
 
@@ -132,6 +137,8 @@ nnoremap <Leader>h <C-w>s
 
 " system clipboard
 map <Leader>y "*y
+set clipboard+=unnamedplus
+map <Leader>y "+y
 map <Leader>p "+p
 
 " toggle paste mode
@@ -160,12 +167,14 @@ nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
 " double quote word
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
+" To switch "foo" to 'foo' do cs"'
+"
 " create new file if does not exist
 map gf :e <cfile><CR>
 
 " search
 set path+=**
-set suffixesadd=.py,.txt,.rst,.sls,.pp,.html,.png,.jpg,.jpeg,.gif
+set suffixesadd=.py,.txt,.rst,.sls,.pp,.html,.png,.jpg,.jpeg,.gif,.erb
 
 " hide highlighted search results with F3
 nnoremap <F3> :set hlsearch!<CR>
@@ -207,6 +216,12 @@ au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
 " json
 autocmd BufNewFile,BufRead *.json set ft=json
 
+"html
+augroup html_autocmd
+  autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType html set set tw=0
+augroup END
+
 augroup json_autocmd
   autocmd!
   autocmd FileType json set autoindent
@@ -222,6 +237,7 @@ au BufRead /tmp/mutt-* set tw=72
 augroup filetypedetect
   autocmd BufRead,BufNewFile *mutt-* setfiletype mail
   autocmd BufRead,BufNewFile *mutt-* set tw=72
+  autocmd BufRead,BufNewFile *mutt-* set nohlsearch
   autocmd FileType mail set nospell formatoptions+=awn2b
 augroup END
 
@@ -229,6 +245,7 @@ augroup END
 augroup docs
   autocmd BufRead,BufNewFile *.rst,*.md setlocal spell
   autocmd BufRead,BufNewFile *.rst,*.md setlocal spelllang=en_us
+  autocmd BufRead,BufNewFile *.rst set fo=want
 augroup END
 
 " salt
@@ -245,7 +262,11 @@ autocmd BufNewFile,BufRead *.pp set ft=puppet
 
 " python
 augroup python
-  autocmd BufRead *.py set foldmethod=indent foldnestmax=2 tabstop=2 expandtab shiftwidth=2 softtabstop=2
+  "autocmd BufRead *.py set foldmethod=indent foldnestmax=2
+  autocmd BufRead *.py set foldmethod=manual foldnestmax=2
+  if executable('autopep8')
+    autocmd FileType python setlocal equalprg=autopep8\ --indent-size\ 2\ /dev/stdin
+  endif
 augroup END
 
 " help
@@ -269,6 +290,7 @@ function! <SID>StripTrailingWhitespaces()
   "Clean up: restore previous search history, and cursor position
   let @/=_s
   call cursor(l, c)
+  :retab
 endfunction
 
 autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
@@ -278,6 +300,7 @@ highlight EOLWS ctermbg=red guibg=red
 " ultisnips
 let g:ultisnips_python_style = "sphinx"
 let g:UltiSnipsEditSplit = "vertical"
+let g:UltiSnipsSnippetsDir = "~/.vim/bundle/snippets/UltiSnips/"
 
 " ctrlp
 if executable('ag')
@@ -297,8 +320,17 @@ endif
 nmap <Leader>f :CtrlPBufTag<CR>
 nmap <Leader>t :CtrlPTag<CR>
 
+set tags=./tags,tags
+"autocmd BufWritePost * call system("ctags -R")
+nnoremap <F2> :!ctags -R<CR>
 " jedi-vim
 let g:jedi#popup_on_dot = 0
+let g:jedi#show_call_signatures = 2
+let g:jedi#use_splits_not_buffers = 'right'
+
+" NERDTree
+nmap <F4> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "context"
@@ -306,7 +338,9 @@ let g:SuperTabDefaultCompletionType = "context"
 " tmuxline
 "let g:airline#extensions#tmuxline#enabled = 0
 "let g:tmuxline_theme = 'jellybeans'
-let g:tmuxline_preset = 'powerline'
+" let g:tmuxline_preset = 'powerline'
+" Run Make with F5
+nmap <F5> :Make<CR>
 
 " backups
 function! MakeDirIfNoExists(path)
@@ -338,6 +372,11 @@ nmap <Leader>s 1z=<CR>
 
 " toggle showing line numbers
 nmap <F12> :set invnumber<CR>
+
+" netrw
+let g:netrw_silent = 0
+let g:netrw_use_errorwindow = 0
+let g:netrw_rsync_cmd = "rsync -avz --progress -h"
 
 " local config file for example overriding ctags path in FreeBSD
 let s:vimcustomfile = $HOME.'/.vim/local.vim'
