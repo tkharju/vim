@@ -68,11 +68,11 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'fatih/vim-go'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'garyburd/go-explorer'
+Plugin 'Toggle'
 
 call vundle#end()
 
 filetype plugin indent on
-
 
 if VundleExists == 1
     echo "Installing Plugins"
@@ -274,7 +274,8 @@ let g:indentLine_fileType = ['python', 'puppet', 'sls', 'html', 'js']
 nmap <F6> :IndentLinesToggle<CR>
 
 " syntastic
-let g:syntastic_python_checkers = ['flake8', 'pyflakes']
+let g:syntastic_python_checkers = ['prospector']
+"let g:syntastic_python_checkers = ['flake8', 'pyflakes']
 "let g:syntastic_python_checkers = ['prospector', 'flake8', 'pyflakes']
 "let g:syntastic_python_checkers = ['pylint', 'flake8', 'pyflakes']
 let g:syntastic_check_on_open = 1
@@ -288,8 +289,24 @@ let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_style_error_symbol  = '⚡'
 let g:syntastic_style_warning_symbol  = '⚡'
+let g:syntastic_always_populate_loc_list = 1
 
-" filetypes
+nnoremap <leader>q :call QuickfixToggle()<cr>
+
+let g:quickfix_is_open = 0
+
+function! QuickfixToggle()
+    if g:quickfix_is_open
+        cclose
+        let g:quickfix_is_open = 0
+    else
+        copen
+        let g:quickfix_is_open = 1
+    endif
+endfunction
+
+" FILETYPES
+
 " django/html
 augroup django_html_autocmd
   au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
