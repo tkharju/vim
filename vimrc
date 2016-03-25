@@ -25,14 +25,16 @@ call vundle#begin()
 " List plugins here
 Plugin 'airblade/vim-gitgutter'
 Plugin 'gmarik/Vundle.vim.git'
-Plugin 'bling/vim-airline'
-Plugin 'davidhalter/jedi-vim'
+"Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'davidhalter/jedi-vim'
 Plugin 'ervandew/supertab'
 Plugin 'godlygeek/tabular'
 Plugin 'honza/vim-snippets'
 Plugin 'kien/ctrlp.vim'
 Plugin 'rking/ag.vim'
-"Plugin 'klen/python-mode.git' // conflicts with jedi-vim
+Plugin 'klen/python-mode.git' "// conflicts with jedi-vim
 Plugin 'lepture/vim-jinja'
 Plugin 'ludovicchabant/vim-lawrencium'
 Plugin 'majutsushi/tagbar'
@@ -68,7 +70,9 @@ Plugin 'editorconfig/editorconfig-vim'
 Plugin 'fatih/vim-go'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'garyburd/go-explorer'
+Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'Toggle'
+Plugin 'derekwyatt/vim-scala'
 
 call vundle#end()
 
@@ -151,8 +155,8 @@ set t_Co=256                   " 256 colors for the terminal
 
 " resize buffers if window size changes
 au VimResized * exe "normal! \<c-w>="
-nnoremap <silent> + :exe "vertical resize +5"<CR>
-nnoremap <silent> - :exe "vertical resize -5"<CR>
+nnoremap <silent> <leader>+ :exe "vertical resize +5"<CR>
+nnoremap <silent> <leader>- :exe "vertical resize -5"<CR>
 
 " open new file for editing
 map <leader>ew :e %%
@@ -460,6 +464,23 @@ let g:jedi#popup_on_dot = 0
 let g:jedi#show_call_signatures = 2
 "let g:jedi#use_tabs_not_buffers = 0
 let g:jedi#use_splits_not_buffers = 'right'
+"let g:jedi#force_py_version = 2
+
+" python-mode
+let g:pymode_doc = 1
+let g:pymode_rope_autoimport = 1
+let g:pymode_rope_autoimport_import_after_complete = 1
+let g:pymode_rope_complete_on_dot = 1
+let g:pymode_rope_completion = 1
+let g:pymode_rope_goto_definition_cmd = 'e'
+let g:pymode_syntax = 0
+let g:pymode_virtualenv = 0
+let g:pymode_syntax_slow_sync = 0
+let g:pymode_syntax_all = 0
+let g:pymode_lint = 0
+let g:pymode_indent = 0
+let g:pymode_folding = 0
+let g:pymode_lint_on_write = 0
 
 " NERDTree
 nmap <F4> :NERDTreeToggle<CR>
@@ -508,6 +529,12 @@ nmap <Leader>s 1z=<CR>
 
 " toggle showing line numbers
 nmap <F12> :set invnumber<CR>
+
+" Rainbow parenthesis
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 " netrw
 let g:netrw_silent = 0
