@@ -31,6 +31,7 @@ Plugin 'vim-airline/vim-airline-themes'
 "Plugin 'davidhalter/jedi-vim'
 Plugin 'ervandew/supertab'
 Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 Plugin 'honza/vim-snippets'
 Plugin 'kien/ctrlp.vim'
 Plugin 'rking/ag.vim'
@@ -111,6 +112,7 @@ set complete-=i
 set cmdheight=3
 set shortmess+=T
 set foldmethod=manual
+set cryptmethod=blowfish2
 
 " search
 set incsearch                   " incremental searching
@@ -191,8 +193,11 @@ endif
 
 " fix typos
 iabbrev teh the
+iabbrev datacenter data center
+"iabbrev ... …
 iabbrev upcloud UpCloud
 iabbrev Upcloud UpCloud
+iabbrev isntall install
 "iabbrev postgresql PostgreSQL
 iabbrev TK Tino Kiviharju
 iabbrev tinohaltu Tino Kiviharju <tino.kiviharju@haltu.fi>
@@ -354,11 +359,12 @@ autocmd BufRead,BufNewFile *.tji,*.tjp setfiletype tjp
 augroup docs
   autocmd BufRead,BufNewFile *.rst,*.md setlocal spell
   autocmd BufRead,BufNewFile *.rst,*.md setlocal spelllang=en_us
+  autocmd BufRead,BufNewFile *.rst,*.md setlocal complete=.,w,b,u,t,k
   autocmd BufRead,BufNewFile *.rst set fo=want
 augroup END
 
 " salt
-autocmd BufRead,BufNewFile *.sls set nowrap spelllang=en_us
+autocmd BufRead,BufNewFile *.sls set nowrap spelllang=en_us tw=200
 
 " docker
 autocmd FileType dockerfile setlocal makeprg=docker\ build\ %:h
@@ -468,13 +474,13 @@ let g:jedi#use_splits_not_buffers = 'right'
 
 " python-mode
 let g:pymode_doc = 1
-let g:pymode_rope_autoimport = 1
-let g:pymode_rope_autoimport_import_after_complete = 1
+let g:pymode_rope_autoimport = 0
+let g:pymode_rope_autoimport_import_after_complete = 0
 let g:pymode_rope_complete_on_dot = 1
 let g:pymode_rope_completion = 1
 let g:pymode_rope_goto_definition_cmd = 'e'
 let g:pymode_syntax = 0
-let g:pymode_virtualenv = 0
+let g:pymode_virtualenv = 1
 let g:pymode_syntax_slow_sync = 0
 let g:pymode_syntax_all = 0
 let g:pymode_lint = 0
