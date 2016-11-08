@@ -78,6 +78,7 @@ set complete-=i
 set cmdheight=3
 set shortmess+=T
 set foldmethod=manual
+set cryptmethod=blowfish2
 
 " search
 set incsearch                   " incremental searching
@@ -122,8 +123,8 @@ set t_Co=256                   " 256 colors for the terminal
 
 " resize buffers if window size changes
 au VimResized * exe "normal! \<c-w>="
-nnoremap <silent> + :exe "vertical resize +5"<CR>
-nnoremap <silent> - :exe "vertical resize -5"<CR>
+nnoremap <silent> <leader>+ :exe "vertical resize +5"<CR>
+nnoremap <silent> <leader>- :exe "vertical resize -5"<CR>
 
 " open new file for editing
 map <leader>ew :e %%
@@ -211,7 +212,10 @@ nmap <F6> :IndentLinesToggle<CR>
 
 " filetypes
 " django/html
-au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
+augroup django_html_autocmd
+  au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
+  au BufRead,BufNewFile */templates/*.html setlocal tw=0
+augroup END
 
 " json
 autocmd BufNewFile,BufRead *.json set ft=json
@@ -297,6 +301,9 @@ autocmd InsertEnter * syn clear EOLWS | syn match EOLWS excludenl /\s\+\%#\@!$/
 autocmd InsertLeave * syn clear EOLWS | syn match EOLWS excludenl /\s\+$/
 highlight EOLWS ctermbg=red guibg=red
 
+" tidy html
+nnoremap <leader>X :!tidy -q -i --show-errors 0<CR>
+
 " ultisnips
 let g:ultisnips_python_style = "sphinx"
 let g:UltiSnipsEditSplit = "vertical"
@@ -306,23 +313,15 @@ let g:UltiSnipsSnippetsDir = "~/.vim/bundle/snippets/UltiSnips/"
 if executable('ag')
   " Use Ag over Grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  "let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-  let g:ctrlp_user_command = {
-    \ 'types': {
-      \ 1: ['.git', 'cd %s && git ls-files'],
-      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-      \ },
-    \ 'fallback': 'ag %s -l --nocolor --hidden -g ""'
-    \ }
 endif
+
 nmap <Leader>f :CtrlPBufTag<CR>
 nmap <Leader>t :CtrlPTag<CR>
 
 set tags=./tags,tags
-"autocmd BufWritePost * call system("ctags -R")
+
 nnoremap <F2> :!ctags -R<CR>
+
 " jedi-vim
 let g:jedi#popup_on_dot = 0
 let g:jedi#show_call_signatures = 2
@@ -335,10 +334,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " Supertab
 let g:SuperTabDefaultCompletionType = "context"
 
-" tmuxline
-"let g:airline#extensions#tmuxline#enabled = 0
-"let g:tmuxline_theme = 'jellybeans'
-" let g:tmuxline_preset = 'powerline'
 " Run Make with F5
 nmap <F5> :Make<CR>
 
