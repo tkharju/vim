@@ -78,7 +78,7 @@ set complete-=i
 set cmdheight=3
 set shortmess+=T
 set foldmethod=manual
-set cryptmethod=blowfish2
+set cryptmethod=blowfish
 
 " search
 set incsearch                   " incremental searching
