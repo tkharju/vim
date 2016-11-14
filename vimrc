@@ -34,7 +34,6 @@ Plugin 'puppetlabs/puppet-syntax-vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'rodjek/vim-puppet'
 Plugin 'saltstack/salt-vim'
-Plugin 'SirVer/ultisnips'
 Plugin 'tkharju/snippets'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
@@ -303,11 +302,6 @@ highlight EOLWS ctermbg=red guibg=red
 
 " tidy html
 nnoremap <leader>X :!tidy -q -i --show-errors 0<CR>
-
-" ultisnips
-let g:ultisnips_python_style = "sphinx"
-let g:UltiSnipsEditSplit = "vertical"
-let g:UltiSnipsSnippetsDir = "~/.vim/bundle/snippets/UltiSnips/"
 
 " ctrlp
 if executable('ag')
