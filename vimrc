@@ -28,19 +28,20 @@ Plugin 'gmarik/Vundle.vim.git'
 "Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-"Plugin 'davidhalter/jedi-vim'
+Plugin 'davidhalter/jedi-vim'  "// conflicts with python-mode
 Plugin 'ervandew/supertab'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'honza/vim-snippets'
 Plugin 'kien/ctrlp.vim'
 Plugin 'rking/ag.vim'
-Plugin 'klen/python-mode.git' "// conflicts with jedi-vim
+"Plugin 'klen/python-mode.git' "// conflicts with jedi-vim
 Plugin 'lepture/vim-jinja'
 Plugin 'ludovicchabant/vim-lawrencium'
 Plugin 'majutsushi/tagbar'
 Plugin 'maxmeyer/vim-taskjuggler'
-Plugin 'nanotech/jellybeans.vim'
+"Plugin 'nanotech/jellybeans.vim'
+Plugin 'sheerun/vim-wombat-scheme'
 Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'puppetlabs/puppet-syntax-vim'
 Plugin 'Raimondi/delimitMate'
@@ -60,6 +61,7 @@ Plugin 'vimez/vim-tmux'
 "Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'Yggdroot/indentLine'
 "Plugin 'edkolev/tmuxline.vim'
 Plugin 'evanmiller/nginx-vim-syntax'
@@ -118,6 +120,7 @@ set cryptmethod=blowfish2
 set incsearch                   " incremental searching
 set showmatch                   " show pairs match
 set hlsearch                    " highlight search results
+set infercase                   " adjust case depending on the text
 set smartcase                   " smart case ignore
 set ignorecase                  " ignore case letters
 
@@ -149,10 +152,14 @@ set formatoptions-=t
 set textwidth=80
 set colorcolumn=81
 
+" dictionary
+set dictionary+=/usr/share/dict/words
+
 " color scheme
 syntax enable
 set background=dark
-colorscheme jellybeans
+"colorscheme jellybeans
+colorscheme wombat
 set t_Co=256                   " 256 colors for the terminal
 
 " resize buffers if window size changes
@@ -217,6 +224,8 @@ nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
 nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 
 " To switch "foo" to 'foo' do cs"'
+" To wrap entire line in quotes: yss"
+" To wrap a word in quotes: ysiw'
 
 " create new file if does not exist
 map gf :e <cfile><CR>
@@ -291,8 +300,8 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_echo_current_error = 1
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_cursor_column = 1
-let g:syntastic_python_pylint_args="--load-plugins pylint_django -d C0103,C0111,C0301,F0401,E111,W0232,R0903,C1001,E1002,W0311,W0312 --indent-string='  ' --generated-members=objects,filter,id,pk,model,kwargs,request,as_view"
-let g:syntastic_python_flake8_args="--ignore=E111,E501,W391"
+let g:syntastic_python_pylint_args="--load-plugins pylint_django -d C0103,C0111,C0301,F0401,E111,E114,W0232,R0903,C1001,E1002,W0311,W0312 --indent-string='  ' --generated-members=objects,filter,id,pk,model,kwargs,request,as_view"
+let g:syntastic_python_flake8_args="--ignore=E111,E114,E501,W391"
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
@@ -325,10 +334,10 @@ augroup END
 " json
 autocmd BufNewFile,BufRead *.json set ft=json
 
-"html
+" html
 augroup html_autocmd
   autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType html set set tw=0
+  autocmd FileType html set tw=0
 augroup END
 
 augroup json_autocmd
@@ -359,15 +368,43 @@ autocmd BufRead,BufNewFile *.tji,*.tjp setfiletype tjp
 augroup docs
   autocmd BufRead,BufNewFile *.rst,*.md setlocal spell
   autocmd BufRead,BufNewFile *.rst,*.md setlocal spelllang=en_us
-  autocmd BufRead,BufNewFile *.rst,*.md setlocal complete=.,w,b,u,t,k
-  autocmd BufRead,BufNewFile *.rst set fo=want
+  autocmd BufRead,BufNewFile *.rst,*.md,*.txt setlocal complete=.,w,b,u,t,k
+  "autocmd BufRead,BufNewFile *.rst set fo=want
+  autocmd BufRead,BufNewFile *.rst set fo=ant
 augroup END
 
 " salt
+fun! s:DetectJinja()
+  let n = 1
+  while n < 50 && n <= line("$")
+    " check for jinja
+    if getline(n) =~ '{{.*}}\|{%-\?\s*\(end.*\|extends\|block\|macro\|set\|if\|for\|include\|pillar\|grains\|salt\|trans\)\>'
+      set ft=jinja
+      return
+    endif
+    let n = n + 1
+  endwhile
+endfun
+autocmd BufNewFile,BufRead *.* call s:DetectJinja()
+autocmd BufNewFile,BufRead *.sls set ft=sls
 autocmd BufRead,BufNewFile *.sls set nowrap spelllang=en_us tw=200
 
 " docker
 autocmd FileType dockerfile setlocal makeprg=docker\ build\ %:h
+
+" git commit
+augroup gitcommit
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType gitcommit setlocal spelllang=en_us
+  autocmd FileType gitcommit setlocal complete+=k
+augroup END
+
+" mercurial commit
+augroup hgcommit
+  autocmd FileType hgcommit setlocal spell
+  autocmd FileType hgcommit setlocal spelllang=en_us
+  autocmd FileType hgcommit setlocal complete+=k
+augroup END
 
 " puppet
 if exists(":Tabularize")
@@ -391,6 +428,7 @@ augroup END
 augroup python
   "autocmd BufRead *.py set foldmethod=indent foldnestmax=2
   autocmd BufRead *.py set foldmethod=manual foldnestmax=2
+ 	autocmd FileType python setlocal omnifunc=jedi#completions
   if executable('autopep8')
     autocmd FileType python setlocal equalprg=autopep8\ --indent-size\ 2\ /dev/stdin
   endif
@@ -467,30 +505,45 @@ let g:ag_prg="ag --column --ignore=tags"
 
 " jedi-vim
 let g:jedi#popup_on_dot = 0
-let g:jedi#show_call_signatures = 2
-"let g:jedi#use_tabs_not_buffers = 0
+"let g:jedi#show_call_signatures = 1
 let g:jedi#use_splits_not_buffers = 'right'
+"let g:jedi#use_tabs_not_buffers = 0
 "let g:jedi#force_py_version = 2
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
+
+" neocomplete
+let g:neocomplete#enable_at_startup = 1
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 
 " python-mode
-let g:pymode_doc = 1
-let g:pymode_rope_autoimport = 0
-let g:pymode_rope_autoimport_import_after_complete = 0
-let g:pymode_rope_complete_on_dot = 1
-let g:pymode_rope_completion = 1
-let g:pymode_rope_goto_definition_cmd = 'e'
-let g:pymode_syntax = 0
-let g:pymode_virtualenv = 1
-let g:pymode_syntax_slow_sync = 0
-let g:pymode_syntax_all = 0
-let g:pymode_lint = 0
-let g:pymode_indent = 0
-let g:pymode_folding = 0
-let g:pymode_lint_on_write = 0
+"let g:pymode_doc = 1
+"let g:pymode_rope = 0 
+"let g:pymode_rope_autoimport = 0
+"let g:pymode_rope_autoimport_import_after_complete = 0
+"let g:pymode_rope_complete_on_dot = 0
+"let g:pymode_rope_completion = 0
+"let g:pymode_rope_goto_definition_cmd = 'e'
+"let g:pymode_rope_lookup_project = 0
+"let g:pymode_syntax = 0
+"let g:pymode_virtualenv = 0
+"let g:pymode_syntax_slow_sync = 0
+"let g:pymode_syntax_all = 0
+"let g:pymode_lint = 0
+"let g:pymode_indent = 0
+"let g:pymode_folding = 0
+"let g:pymode_lint_on_write = 0
 
 " NERDTree
 nmap <F4> :NERDTreeToggle<CR>
+nnoremap <silent> <Leader><F4> :NERDTreeFind<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "context"
