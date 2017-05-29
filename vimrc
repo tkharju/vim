@@ -281,6 +281,7 @@ augroup END
 
 " delimit mate
 let delimitMate_expand_space = 1
+let delimitMate_balance_matchpairs = 1
 
 " indentline
 " disable globally. Enable only on some files
