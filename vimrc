@@ -20,6 +20,12 @@ if has('vim_starting')
   set rtp+=~/.vim/bundle/Vundle.vim
 endif
 
+" local config file for example overriding plugin configs
+let s:vimcustomheaderfile = $HOME.'/.vim/local_header.vim'
+if filereadable(s:vimcustomheaderfile)
+    exec 'source '.s:vimcustomheaderfile
+endif
+
 " Vundle + Plugins
 call vundle#begin()
 " List plugins here
@@ -29,7 +35,7 @@ Plugin 'ervandew/supertab'
 Plugin 'godlygeek/tabular'
 Plugin 'kien/ctrlp.vim'
 Plugin 'lepture/vim-jinja'
-Plugin 'nanotech/jellybeans.vim'
+Plugin 'sheerun/vim-wombat-scheme'
 Plugin 'puppetlabs/puppet-syntax-vim'
 Plugin 'Raimondi/delimitMate'
 Plugin 'rodjek/vim-puppet'
@@ -82,6 +88,7 @@ set cryptmethod=blowfish
 set incsearch                   " incremental searching
 set showmatch                   " show pairs match
 set hlsearch                    " highlight search results
+set infercase                   " adjust case depending on the text
 set smartcase                   " smart case ignore
 set ignorecase                  " ignore case letters
 
@@ -116,7 +123,7 @@ set colorcolumn=81
 " color scheme
 syntax enable
 set background=dark
-colorscheme jellybeans
+colorscheme wombat
 set t_Co=256                   " 256 colors for the terminal
 
 " resize buffers if window size changes
@@ -198,6 +205,7 @@ augroup END
 
 " delimit mate
 let delimitMate_expand_space = 1
+let delimitMate_balance_matchpairs = 1
 
 " indentline
 " disable globally. Enable only on some files
@@ -218,10 +226,10 @@ augroup END
 " json
 autocmd BufNewFile,BufRead *.json set ft=json
 
-"html
+" html
 augroup html_autocmd
   autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType html set set tw=0
+  autocmd FileType html set tw=0
 augroup END
 
 augroup json_autocmd
@@ -256,6 +264,20 @@ autocmd BufRead,BufNewFile *.sls set nowrap spelllang=en_us
 " docker
 autocmd FileType dockerfile setlocal makeprg=docker\ build\ %:h
 
+" git commit
+augroup gitcommit
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType gitcommit setlocal spelllang=en_us
+  autocmd FileType gitcommit setlocal complete+=k
+augroup END
+
+" mercurial commit
+augroup hgcommit
+  autocmd FileType hgcommit setlocal spell
+  autocmd FileType hgcommit setlocal spelllang=en_us
+  autocmd FileType hgcommit setlocal complete+=k
+augroup END
+
 " puppet
 if exists(":Tabularize")
   nmap <Leader>T :Tabularize /=><CR>
@@ -264,8 +286,8 @@ autocmd BufNewFile,BufRead *.pp set ft=puppet
 
 " python
 augroup python
-  "autocmd BufRead *.py set foldmethod=indent foldnestmax=2
   autocmd BufRead *.py set foldmethod=manual foldnestmax=2
+ 	autocmd FileType python setlocal omnifunc=jedi#completions
   if executable('autopep8')
     autocmd FileType python setlocal equalprg=autopep8\ --indent-size\ 2\ /dev/stdin
   endif
@@ -317,8 +339,10 @@ nnoremap <F2> :!ctags -R<CR>
 
 " jedi-vim
 let g:jedi#popup_on_dot = 0
-let g:jedi#show_call_signatures = 2
 let g:jedi#use_splits_not_buffers = 'right'
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
 
 " NERDTree
 nmap <F4> :NERDTreeToggle<CR>
