@@ -20,6 +20,12 @@ if has('vim_starting')
   set rtp+=~/.vim/bundle/Vundle.vim
 endif
 
+" local config file for example overriding plugin configs
+let s:vimcustomheaderfile = $HOME.'/.vim/local_header.vim'
+if filereadable(s:vimcustomheaderfile)
+    exec 'source '.s:vimcustomheaderfile
+endif
+
 " Vundle + Plugins
 call vundle#begin()
 " List plugins here
