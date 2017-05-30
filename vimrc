@@ -31,7 +31,6 @@ call vundle#begin()
 " List plugins here
 Plugin 'airblade/vim-gitgutter'
 Plugin 'gmarik/Vundle.vim.git'
-"Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'davidhalter/jedi-vim'  "// conflicts with python-mode
@@ -46,7 +45,6 @@ Plugin 'lepture/vim-jinja'
 Plugin 'ludovicchabant/vim-lawrencium'
 Plugin 'majutsushi/tagbar'
 Plugin 'maxmeyer/vim-taskjuggler'
-"Plugin 'nanotech/jellybeans.vim'
 Plugin 'sheerun/vim-wombat-scheme'
 Plugin 'PotatoesMaster/i3-vim-syntax'
 Plugin 'puppetlabs/puppet-syntax-vim'
@@ -64,12 +62,10 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-dispatch'
 Plugin 'vimez/vim-tmux'
-"Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'Yggdroot/indentLine'
-"Plugin 'edkolev/tmuxline.vim'
 Plugin 'evanmiller/nginx-vim-syntax'
 Plugin 'voikko/corevoikko', {'rtp': 'tools/vim'}
 Plugin 'othree/html5.vim'
@@ -164,7 +160,6 @@ set dictionary+=/usr/share/dict/words
 " color scheme
 syntax enable
 set background=dark
-"colorscheme jellybeans
 colorscheme wombat
 set t_Co=256                   " 256 colors for the terminal
 
@@ -186,9 +181,7 @@ nnoremap <Leader>h <C-w>s
 " system clipboard
 set clipboard+=unnamedplus
 map <Leader>y "+y
-"map <Leader>y "*y
 map <Leader>p "+p
-"map <Leader>p "*p
 
 " toggle paste mode
 map <Leader>P :set invpaste<CR>
@@ -207,11 +200,9 @@ endif
 " fix typos
 iabbrev teh the
 iabbrev datacenter data center
-"iabbrev ... …
 iabbrev upcloud UpCloud
 iabbrev Upcloud UpCloud
 iabbrev isntall install
-"iabbrev postgresql PostgreSQL
 iabbrev TK Tino Kiviharju
 iabbrev tinohaltu Tino Kiviharju <tino.kiviharju@haltu.fi>
 iabbrev tinogmail Tino Kiviharju <tino.kiviharju@gmail.com>
@@ -260,8 +251,6 @@ fun! RangerChooser()
 endfun
 map <Leader>x :call RangerChooser()<CR>
 
-" plugin settings
-
 " tagbar
 nmap <F8> :TagbarToggle<CR>
 
@@ -300,9 +289,6 @@ nmap <F6> :IndentLinesToggle<CR>
 
 " syntastic
 let g:syntastic_python_checkers = ['prospector']
-"let g:syntastic_python_checkers = ['flake8', 'pyflakes']
-"let g:syntastic_python_checkers = ['prospector', 'flake8', 'pyflakes']
-"let g:syntastic_python_checkers = ['pylint', 'flake8', 'pyflakes']
 let g:syntastic_check_on_open = 1
 let g:syntastic_echo_current_error = 1
 let g:syntastic_aggregate_errors = 1
@@ -365,7 +351,6 @@ augroup filetypedetect
   autocmd BufRead,BufNewFile *mutt-* set nohlsearch
   autocmd FileType mail set nospell formatoptions+=awn2b
   autocmd FileType mail let b:vimchant_spellcheck_lang = 'fi'
-  "autocmd FileType mail :VimchantSpellCheckOn
 augroup END
 
 " taskjuggler
@@ -376,7 +361,6 @@ augroup docs
   autocmd BufRead,BufNewFile *.rst,*.md setlocal spell
   autocmd BufRead,BufNewFile *.rst,*.md setlocal spelllang=en_us
   autocmd BufRead,BufNewFile *.rst,*.md,*.txt setlocal complete=.,w,b,u,t,k
-  "autocmd BufRead,BufNewFile *.rst set fo=want
   autocmd BufRead,BufNewFile *.rst set fo=ant
 augroup END
 
@@ -484,23 +468,10 @@ if executable('ag')
 
 "  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
 "  "let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-"  let g:ctrlp_user_command = {
-"    \ 'types': {
-"      \ 1: ['.git', 'cd %s && git ls-files'],
-"      \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-"      \ },
-"    \ 'fallback': 'ag %s -l --nocolor --hidden -g ""'
-"    \ }
 endif
+
 nmap <Leader>f :CtrlPBufTag<CR>
 nmap <Leader>t :CtrlPTag<CR>
-
-" easytags
-"let g:easytags_async = 1
-"let g:easytags_auto_update = 0
-"let g:easytags_auto_highlight = 0
-""set tags=./tags;,~/.tags/python
-"let g:easytags_dynamic_files = 2
 
 set tags=./tags,tags
 "autocmd BufWritePost * call system("ctags -R")
@@ -511,14 +482,11 @@ nmap <Leader>a :Ag!
 let g:ag_prg="ag --column --ignore=tags"
 
 " jedi-vim
-let g:jedi#popup_on_dot = 0
-"let g:jedi#show_call_signatures = 1
-let g:jedi#use_splits_not_buffers = 'right'
-"let g:jedi#use_tabs_not_buffers = 0
-"let g:jedi#force_py_version = 2
-let g:jedi#completions_enabled = 0
 let g:jedi#auto_vim_configuration = 0
+let g:jedi#completions_enabled = 0
+let g:jedi#popup_on_dot = 0
 let g:jedi#smart_auto_mappings = 0
+let g:jedi#use_splits_not_buffers = 'right'
 
 " neocomplete
 let g:neocomplete#enable_at_startup = 1
@@ -554,13 +522,6 @@ let NERDTreeDirArrows = 1
 
 " Supertab
 let g:SuperTabDefaultCompletionType = "context"
-
-" tmuxline
-"let g:airline#extensions#tmuxline#enabled = 0
-"let g:tmuxline_theme = 'jellybeans'
-
-" this one
-"let g:tmuxline_preset = 'powerline'
 
 " Run Make with F5
 nmap <F5> :Make<CR>
