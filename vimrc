@@ -316,8 +316,6 @@ function! QuickfixToggle()
     endif
 endfunction
 
-" FILETYPES
-
 " django/html
 augroup django_html_autocmd
   au BufRead,BufNewFile */templates/*.html setlocal filetype=htmldjango.html
@@ -484,16 +482,25 @@ let g:ag_prg="ag --column --ignore=tags"
 " jedi-vim
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#completions_enabled = 0
-let g:jedi#popup_on_dot = 0
+let g:jedi#popup_on_dot = 1
 let g:jedi#smart_auto_mappings = 0
 let g:jedi#use_splits_not_buffers = 'right'
+let g:jedi#force_py_version = 3
 
 " neocomplete
 let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#skip_auto_completion_time = ''
+
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+"let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+let g:neocomplete#force_omni_input_patterns.python = '\h\w*\|[^. \t]\.\w*'
+
+if !exists('g:neocomplete#sources')
+  let g:neocomplete#sources = {}
+endif
+let g:neocomplete#sources.python = ['buffer', 'omni', 'dictionary', 'file', 'member', 'tag']
 
 " python-mode
 "let g:pymode_doc = 1
