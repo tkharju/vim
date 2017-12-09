@@ -72,7 +72,7 @@ Plugin 'othree/html5.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'gregsexton/MatchTag'
 Plugin 'editorconfig/editorconfig-vim'
-Plugin 'fatih/vim-go'
+Plugin 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'garyburd/go-explorer'
 Plugin 'kien/rainbow_parentheses.vim'
