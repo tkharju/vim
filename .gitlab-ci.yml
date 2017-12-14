@@ -5,5 +5,5 @@ build_docker:
   stage: build
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE:latest" .
-    - docker run --rm -i -t "$CI_REGISTRY_IMAGE:latest" vim +qall
+    - docker run --rm -t "$CI_REGISTRY_IMAGE:latest" vim +qall
 
