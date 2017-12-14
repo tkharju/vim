@@ -66,7 +66,7 @@ Plugin 'xolox/vim-misc'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'Yggdroot/indentLine'
-Plugin 'evanmiller/nginx-vim-syntax'
+Plugin 'nginx/nginx', {'rtp': 'contrib/vim'}
 Plugin 'voikko/corevoikko', {'rtp': 'tools/vim'}
 Plugin 'othree/html5.vim'
 Plugin 'mattn/emmet-vim'
