@@ -8,8 +8,6 @@ filetype off
 let VundleExists=0
 let vundle_readme=expand($HOME.'/.vim/bundle/Vundle.vim/README.md')
 if !filereadable(vundle_readme)
-    echo "Installing Vundle.."
-    echo ""
     silent !mkdir -p $HOME/.vim/bundle
     silent !git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
     let VundleExists=1
@@ -23,7 +21,7 @@ endif
 " local config file for example overriding plugin configs
 let s:vimcustomheaderfile = $HOME.'/.vim/local_header.vim'
 if filereadable(s:vimcustomheaderfile)
-    exec 'source '.s:vimcustomheaderfile
+  exec 'source '.s:vimcustomheaderfile
 endif
 
 " Vundle + Plugins
@@ -66,7 +64,7 @@ Plugin 'xolox/vim-misc'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'Yggdroot/indentLine'
-Plugin 'nginx/nginx', {'rtp': 'contrib/vim'}
+Plugin 'chr4/nginx.vim'
 Plugin 'voikko/corevoikko', {'rtp': 'tools/vim'}
 Plugin 'othree/html5.vim'
 Plugin 'mattn/emmet-vim'
@@ -78,15 +76,14 @@ Plugin 'garyburd/go-explorer'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'Toggle'
 Plugin 'derekwyatt/vim-scala'
-
+Plugin 'kannokanno/previm'
+Plugin 'tyru/open-browser.vim'
 call vundle#end()
 
 filetype plugin indent on
 
 if VundleExists == 1
-    echo "Installing Plugins"
-    echo ""
-    :PluginInstall
+    silen :PluginInstall
 endif
 
 let mapleader = ","
@@ -574,6 +571,14 @@ au Syntax * RainbowParenthesesLoadBraces
 let g:netrw_silent = 0
 let g:netrw_use_errorwindow = 0
 let g:netrw_rsync_cmd = "rsync -avz --progress -h"
+" https://github.com/vim/vim/issues/2329
+autocmd BufRead,BufWritePost scp://* :set bt=acwrite
+
+
+" open-browser
+let g:netrw_nogx = 1 " disable netrw's gx mapping.
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)"
 
 " local config file for example overriding ctags path in FreeBSD
 let s:vimcustomfile = $HOME.'/.vim/local.vim'
