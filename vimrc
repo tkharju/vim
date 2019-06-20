@@ -78,6 +78,9 @@ Plugin 'Toggle'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'kannokanno/previm'
 Plugin 'tyru/open-browser.vim'
+Plugin 'ludovicchabant/vim-gutentags'
+Plugin 'KabbAmine/zeavim.vim'
+Plugin 'AndrewRadev/splitjoin.vim'
 call vundle#end()
 
 filetype plugin indent on
@@ -103,12 +106,14 @@ set hidden                      " hide the inactive buffers
 set ruler                       " sets a permanent rule
 set lazyredraw                  " only redraws if it is needed
 set autoread                    " update a open file edited outside of Vim
+set autowrite                   " Save file when calling make
 set ttimeoutlen=0               " toggle between modes almost instantly
 set backspace=indent,eol,start  " defines the backspace key behavior
 set virtualedit=all             " to edit where there is no actual character
 set splitright                  " open splits on the right side
-set splitbelow                   " open vertical splits below
+set splitbelow                  " open vertical splits below
 set mouse=a                     " support mouse
+set updatetime=100
 set complete-=i
 set cmdheight=3
 set shortmess+=T
@@ -269,6 +274,7 @@ augroup plugin_commentary
     au FileType htmldjango setlocal commentstring={#\ %s\ #}
     au FileType puppet setlocal commentstring=#\ %s
     au FileType sls setlocal commentstring=#\ %s
+    au FileType apache setlocal commentstring=#\ %s
 augroup END
 
 " delimit mate
@@ -300,6 +306,8 @@ let g:syntastic_style_warning_symbol  = '⚡'
 let g:syntastic_always_populate_loc_list = 1
 
 nnoremap <leader>q :call QuickfixToggle()<cr>
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
 
 let g:quickfix_is_open = 0
 
@@ -574,11 +582,61 @@ let g:netrw_rsync_cmd = "rsync -avz --progress -h"
 " https://github.com/vim/vim/issues/2329
 autocmd BufRead,BufWritePost scp://* :set bt=acwrite
 
-
 " open-browser
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)"
+
+" go-vim
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck']
+let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
+let g:go_auto_sameids = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+"let g:go_list_type = "quickfix"
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <F9> <Plug>(go-test)
+au FileType go nmap <S-F9> <Plug>(go-test-func)
+au FileType go nmap <Leader>w <Plug>(go-coverage-toggle)
+
+autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
+" zeavim https://github.com/KabbAmine/zeavim.vim
+let g:zv_keep_focus = 0
+let g:zv_file_types = {
+            \   'help'                : 'vim',
+            \   'javascript'          : 'javascript',
+            \   'python'              : 'python_2,django',
+            \   'sh'                  : 'bash',
+            \   'sls'                 : 'salt',
+            \   'Vagrantfile'         : 'vagrant',
+            \   'dockerfile'          : 'docker',
+            \   'Dockerfile'          : 'docker',
+            \   '\v^(md|mdown|mkd|mkdn)$'  : 'markdown',
+            \ }
 
 " local config file for example overriding ctags path in FreeBSD
 let s:vimcustomfile = $HOME.'/.vim/local.vim'
